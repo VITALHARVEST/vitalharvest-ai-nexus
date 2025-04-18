@@ -2,7 +2,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Send, Mic, User, Bot } from "lucide-react";
+import { Send, Mic, User, Bot, StopCircle } from "lucide-react";
+import { toast } from "sonner";
 
 type Message = {
   id: number;
@@ -13,9 +14,9 @@ type Message = {
 
 const mockResponses = [
   "नमस्ते! मैं आपकी कैसे सहायता कर सकता हूं?",
-  "हमारे पास कृषि उत्पादों की एक विस्तृत श्रृंखला है। क्या आप किसी विशेष उत्पाद में रुचि रखते हैं?",
-  "हमारे ऑर्गेनिक खाद के बारे में अधिक जानकारी के लिए, आप हमारी वेबसाइट पर उत्पाद विवरण देख सकते हैं।",
-  "क्या आप हमारे नवीनतम प्रशिक्षण कार्यक्रमों के बारे में जानना चाहते हैं?",
+  "हमारे पास स्वास्थ्य और डायबिटीज़ उत्पादों की एक विस्तृत श्रृंखला है। क्या आप किसी विशेष उत्पाद में रुचि रखते हैं?",
+  "हमारे डायबिटीज़ स्पेशल आटे के बारे में अधिक जानकारी के लिए, आप हमारी वेबसाइट पर उत्पाद विवरण देख सकते हैं।",
+  "क्या आप हमारे नवीनतम स्वास्थ्य सप्लीमेंट्स के बारे में जानना चाहते हैं?",
   "हमारे उत्पादों को खरीदने के लिए आप हमारी वेबसाइट पर ऑर्डर कर सकते हैं या हमारे विक्रेताओं से संपर्क कर सकते हैं।",
 ];
 
@@ -31,7 +32,45 @@ const AIChatbot = () => {
     },
   ]);
   const [isRecording, setIsRecording] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const speechSynthesis = window.speechSynthesis;
+  const speechRecognition = useRef<SpeechRecognition | null>(null);
+  
+  // Initialize speech recognition
+  useEffect(() => {
+    if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      speechRecognition.current = new SpeechRecognition();
+      speechRecognition.current.continuous = true;
+      speechRecognition.current.interimResults = true;
+      speechRecognition.current.lang = 'hi-IN'; // Set language to Hindi
+      
+      speechRecognition.current.onresult = (event) => {
+        const transcript = Array.from(event.results)
+          .map(result => result[0])
+          .map(result => result.transcript)
+          .join('');
+        
+        setInput(transcript);
+      };
+      
+      speechRecognition.current.onerror = (event) => {
+        console.error('Speech recognition error', event.error);
+        setIsRecording(false);
+        toast.error("वॉइस इनपुट में त्रुटि हुई");
+      };
+    }
+    
+    return () => {
+      if (speechRecognition.current) {
+        speechRecognition.current.abort();
+      }
+      if (speechSynthesis.speaking) {
+        speechSynthesis.cancel();
+      }
+    };
+  }, []);
   
   // Auto scroll to bottom of messages
   useEffect(() => {
@@ -45,6 +84,28 @@ const AIChatbot = () => {
   const getRandomResponse = () => {
     const randomIndex = Math.floor(Math.random() * mockResponses.length);
     return mockResponses[randomIndex];
+  };
+  
+  const speakText = (text: string) => {
+    if (speechSynthesis) {
+      // Cancel any ongoing speech
+      if (speechSynthesis.speaking) {
+        speechSynthesis.cancel();
+      }
+      
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'hi-IN';
+      utterance.rate = 0.9;
+      
+      utterance.onstart = () => setIsSpeaking(true);
+      utterance.onend = () => setIsSpeaking(false);
+      utterance.onerror = () => {
+        setIsSpeaking(false);
+        toast.error("वॉइस आउटपुट में त्रुटि हुई");
+      };
+      
+      speechSynthesis.speak(utterance);
+    }
   };
   
   const handleSend = () => {
@@ -63,13 +124,17 @@ const AIChatbot = () => {
     
     // Simulate AI response
     setTimeout(() => {
-      const botResponse: Message = {
+      const botResponse = getRandomResponse();
+      const botMessage: Message = {
         id: messages.length + 2,
-        text: getRandomResponse(),
+        text: botResponse,
         isUser: false,
         timestamp: new Date(),
       };
-      setMessages(prev => [...prev, botResponse]);
+      setMessages(prev => [...prev, botMessage]);
+      
+      // Speak the response
+      speakText(botResponse);
     }, 1000);
   };
   
@@ -80,15 +145,29 @@ const AIChatbot = () => {
   };
   
   const toggleRecording = () => {
-    setIsRecording(!isRecording);
-    // Voice recording functionality would be implemented here
-    if (!isRecording) {
-      // Start recording
-      // This is a mock implementation
-      setTimeout(() => {
-        setIsRecording(false);
-        setInput("मुझे फसलों के लिए उत्पादों के बारे में जानकारी चाहिए।");
-      }, 2000);
+    if (!speechRecognition.current) {
+      toast.error("आपका ब्राउज़र वॉइस इनपुट का समर्थन नहीं करता है");
+      return;
+    }
+    
+    if (isRecording) {
+      speechRecognition.current.stop();
+      setIsRecording(false);
+      // Send the message if there's input
+      if (input.trim()) {
+        handleSend();
+      }
+    } else {
+      speechRecognition.current.start();
+      setIsRecording(true);
+      toast.success("वॉइस इनपुट शुरू हुआ");
+    }
+  };
+  
+  const stopSpeaking = () => {
+    if (speechSynthesis && speechSynthesis.speaking) {
+      speechSynthesis.cancel();
+      setIsSpeaking(false);
     }
   };
   
@@ -103,8 +182,18 @@ const AIChatbot = () => {
       
       {isOpen && (
         <div className="fixed bottom-20 right-4 w-80 sm:w-96 h-96 bg-white rounded-lg shadow-xl flex flex-col border border-gray-200">
-          <div className="p-3 bg-primary text-white rounded-t-lg">
+          <div className="p-3 bg-primary text-white rounded-t-lg flex justify-between items-center">
             <h3 className="font-medium">VitalHarvest AI असिस्टेंट</h3>
+            {isSpeaking && (
+              <Button 
+                size="icon" 
+                variant="ghost" 
+                className="h-8 w-8" 
+                onClick={stopSpeaking}
+              >
+                <StopCircle size={18} className="text-white" />
+              </Button>
+            )}
           </div>
           
           <div className="flex-1 overflow-y-auto p-3 space-y-3">
@@ -138,18 +227,29 @@ const AIChatbot = () => {
                 onKeyDown={handleKeyDown}
                 placeholder="मेसेज लिखें..."
                 className="flex-1"
+                disabled={isRecording}
               />
               <Button 
                 size="icon" 
                 onClick={toggleRecording} 
                 variant={isRecording ? "destructive" : "outline"}
+                title={isRecording ? "वॉइस इनपुट बंद करें" : "वॉइस इनपुट शुरू करें"}
               >
                 <Mic size={18} />
               </Button>
-              <Button size="icon" onClick={handleSend}>
+              <Button 
+                size="icon" 
+                onClick={handleSend}
+                disabled={!input.trim()}
+              >
                 <Send size={18} />
               </Button>
             </div>
+            {isRecording && (
+              <p className="text-xs text-center mt-2 text-red-500 animate-pulse">
+                वॉइस रिकॉर्डिंग चल रही है...
+              </p>
+            )}
           </div>
         </div>
       )}
