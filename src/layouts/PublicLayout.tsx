@@ -2,6 +2,12 @@
 import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { Menu } from 'lucide-react';
 
 const PublicLayout = () => {
   return (
@@ -17,12 +23,35 @@ const PublicLayout = () => {
                 <Link to="/products" className="px-3 py-2 text-sm font-medium text-gray-900">उत्पाद</Link>
                 <Link to="/about" className="px-3 py-2 text-sm font-medium text-gray-900">हमारे बारे में</Link>
                 <Link to="/contact" className="px-3 py-2 text-sm font-medium text-gray-900">संपर्क करें</Link>
+                <Link to="/feedback" className="px-3 py-2 text-sm font-medium text-gray-900">फीडबैक</Link>
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <Button variant="outline" asChild>
-                <Link to="/admin">Admin पैनल</Link>
-              </Button>
+              <div className="hidden sm:block">
+                <Button variant="outline" asChild>
+                  <Link to="/admin">Admin पैनल</Link>
+                </Button>
+              </div>
+              
+              <div className="sm:hidden">
+                <Sheet>
+                  <SheetTrigger asChild>
+                    <Button variant="ghost" size="icon">
+                      <Menu />
+                    </Button>
+                  </SheetTrigger>
+                  <SheetContent side="left">
+                    <div className="flex flex-col py-4 space-y-4">
+                      <Link to="/" className="text-lg font-semibold px-4">VitalHarvest</Link>
+                      <Link to="/products" className="px-4 py-2 hover:bg-gray-100 rounded-md">उत्पाद</Link>
+                      <Link to="/about" className="px-4 py-2 hover:bg-gray-100 rounded-md">हमारे बारे में</Link>
+                      <Link to="/contact" className="px-4 py-2 hover:bg-gray-100 rounded-md">संपर्क करें</Link>
+                      <Link to="/feedback" className="px-4 py-2 hover:bg-gray-100 rounded-md">फीडबैक</Link>
+                      <Link to="/admin" className="px-4 py-2 mt-4 text-primary">Admin पैनल</Link>
+                    </div>
+                  </SheetContent>
+                </Sheet>
+              </div>
             </div>
           </div>
         </div>
