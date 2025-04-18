@@ -1,36 +1,58 @@
-
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 
-// Mock data for products
+// Updated mock data for health and wellness products
 const initialProducts = [
   {
     id: 1,
-    name: "ऑर्गेनिक खाद",
-    description: "फसलों के लिए 100% ऑर्गेनिक खाद",
-    price: 500,
-    image: "https://assets.lovable.dev/templates/ecommerce/product1.jpg",
-    category: "कृषि",
+    name: "डायबिटीज़ स्पेशल आटा",
+    description: "विशेष रूप से डायबिटीज़ रोगियों के लिए तैयार किया गया कम जी.आई. वाला आटा",
+    price: 250,
+    image: "https://assets.lovable.dev/templates/ecommerce/health1.jpg",
+    category: "डायबिटीज़ फूड",
   },
   {
     id: 2,
-    name: "बीज संग्रह",
-    description: "विभिन्न प्रकार के उच्च गुणवत्ता वाले बीज",
-    price: 350,
-    image: "https://assets.lovable.dev/templates/ecommerce/product2.jpg",
-    category: "कृषि",
+    name: "शुगर फ्री स्वीटनर",
+    description: "100% प्राकृतिक स्टीविया आधारित स्वीटनर",
+    price: 180,
+    image: "https://assets.lovable.dev/templates/ecommerce/health2.jpg",
+    category: "डायबिटीज़ फूड",
   },
   {
     id: 3,
-    name: "कीट नियंत्रक",
-    description: "जैविक कीट नियंत्रण समाधान",
+    name: "ऑर्गेनिक किनवा",
+    description: "प्रोटीन और फाइबर से भरपूर सुपरफूड",
     price: 450,
-    image: "https://assets.lovable.dev/templates/ecommerce/product3.jpg",
-    category: "कृषि",
+    image: "https://assets.lovable.dev/templates/ecommerce/food1.jpg",
+    category: "होलग्रेन",
   },
+  {
+    id: 4,
+    name: "मिक्स्ड मिलेट्स",
+    description: "विभिन्न प्रकार के पौष्टिक मिलेट्स का मिश्रण",
+    price: 299,
+    image: "https://assets.lovable.dev/templates/ecommerce/food2.jpg",
+    category: "होलग्रेन",
+  },
+  {
+    id: 5,
+    name: "डायबिटीज़ प्रोटीन बार",
+    description: "शुगर फ्री, हाई प्रोटीन एनर्जी बार",
+    price: 180,
+    image: "https://assets.lovable.dev/templates/ecommerce/supplement1.jpg",
+    category: "सप्लीमेंट्स",
+  },
+  {
+    id: 6,
+    name: "मल्टीविटामिन टैबलेट्स",
+    description: "डेली हेल्थ सप्लीमेंट",
+    price: 550,
+    image: "https://assets.lovable.dev/templates/ecommerce/supplement2.jpg",
+    category: "सप्लीमेंट्स",
+  }
 ];
 
 const Products = () => {
@@ -58,7 +80,7 @@ const Products = () => {
     return matchesSearch && matchesCategory;
   });
   
-  const categories = ["सभी", "कृषि", "उपकरण", "प्रशिक्षण"];
+  const categories = ["सभी", "डायबिटीज़ फूड", "होलग्रेन", "सप्लीमेंट्स", "किराना"];
   
   return (
     <div className="container mx-auto py-8 px-4">
