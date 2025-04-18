@@ -1,9 +1,15 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Send, Mic, User, Bot, StopCircle } from "lucide-react";
 import { toast } from "sonner";
+
+declare global {
+  interface Window {
+    SpeechRecognition?: typeof SpeechRecognition;
+    webkitSpeechRecognition?: typeof SpeechRecognition;
+  }
+}
 
 type Message = {
   id: number;
@@ -37,10 +43,10 @@ const AIChatbot = () => {
   const speechSynthesis = window.speechSynthesis;
   const speechRecognition = useRef<SpeechRecognition | null>(null);
   
-  // Initialize speech recognition
   useEffect(() => {
-    if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    
+    if (SpeechRecognition) {
       speechRecognition.current = new SpeechRecognition();
       speechRecognition.current.continuous = true;
       speechRecognition.current.interimResults = true;
@@ -60,6 +66,8 @@ const AIChatbot = () => {
         setIsRecording(false);
         toast.error("वॉइस इनपुट में त्रुटि हुई");
       };
+    } else {
+      toast.error("आपका ब्राउज़र वॉइस इनपुट का समर्थन नहीं करता है");
     }
     
     return () => {
@@ -71,8 +79,7 @@ const AIChatbot = () => {
       }
     };
   }, []);
-  
-  // Auto scroll to bottom of messages
+
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -88,7 +95,6 @@ const AIChatbot = () => {
   
   const speakText = (text: string) => {
     if (speechSynthesis) {
-      // Cancel any ongoing speech
       if (speechSynthesis.speaking) {
         speechSynthesis.cancel();
       }
@@ -111,7 +117,6 @@ const AIChatbot = () => {
   const handleSend = () => {
     if (input.trim() === "") return;
     
-    // Add user message
     const newUserMessage: Message = {
       id: messages.length + 1,
       text: input,
@@ -122,7 +127,6 @@ const AIChatbot = () => {
     setMessages(prev => [...prev, newUserMessage]);
     setInput("");
     
-    // Simulate AI response
     setTimeout(() => {
       const botResponse = getRandomResponse();
       const botMessage: Message = {
@@ -133,7 +137,6 @@ const AIChatbot = () => {
       };
       setMessages(prev => [...prev, botMessage]);
       
-      // Speak the response
       speakText(botResponse);
     }, 1000);
   };
@@ -153,7 +156,6 @@ const AIChatbot = () => {
     if (isRecording) {
       speechRecognition.current.stop();
       setIsRecording(false);
-      // Send the message if there's input
       if (input.trim()) {
         handleSend();
       }
