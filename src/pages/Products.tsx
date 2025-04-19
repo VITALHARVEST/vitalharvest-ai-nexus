@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,58 +8,58 @@ import { toast } from "sonner";
 const initialProducts = [
   {
     id: 1,
-    name: "डायबिटीज़ स्पेशल आटा",
-    description: "विशेष रूप से डायबिटीज़ रोगियों के लिए तैयार किया गया कम जी.आई. वाला आटा",
+    name: "Diabetes Special Flour",
+    description: "Low GI flour specially prepared for diabetic patients",
     price: 250,
     image: "https://assets.lovable.dev/templates/ecommerce/health1.jpg",
-    category: "डायबिटीज़ फूड",
+    category: "Diabetic Food",
   },
   {
     id: 2,
-    name: "शुगर फ्री स्वीटनर",
-    description: "100% प्राकृतिक स्टीविया आधारित स्वीटनर",
+    name: "Sugar Free Sweetener",
+    description: "100% natural stevia-based sweetener",
     price: 180,
     image: "https://assets.lovable.dev/templates/ecommerce/health2.jpg",
-    category: "डायबिटीज़ फूड",
+    category: "Diabetic Food",
   },
   {
     id: 3,
-    name: "ऑर्गेनिक किनवा",
-    description: "प्रोटीन और फाइबर से भरपूर सुपरफूड",
+    name: "Organic Quinoa",
+    description: "Superfood rich in protein and fiber",
     price: 450,
     image: "https://assets.lovable.dev/templates/ecommerce/food1.jpg",
-    category: "होलग्रेन",
+    category: "Whole Grains",
   },
   {
     id: 4,
-    name: "मिक्स्ड मिलेट्स",
-    description: "विभिन्न प्रकार के पौष्टिक मिलेट्स का मिश्रण",
+    name: "Mixed Millets",
+    description: "A mix of various nutritious millets",
     price: 299,
     image: "https://assets.lovable.dev/templates/ecommerce/food2.jpg",
-    category: "होलग्रेन",
+    category: "Whole Grains",
   },
   {
     id: 5,
-    name: "डायबिटीज़ प्रोटीन बार",
-    description: "शुगर फ्री, हाई प्रोटीन एनर्जी बार",
+    name: "Diabetic Protein Bars",
+    description: "Sugar-free, high-protein energy bars",
     price: 180,
     image: "https://assets.lovable.dev/templates/ecommerce/supplement1.jpg",
-    category: "सप्लीमेंट्स",
+    category: "Supplements",
   },
   {
     id: 6,
-    name: "मल्टीविटामिन टैबलेट्स",
-    description: "डेली हेल्थ सप्लीमेंट",
+    name: "Multivitamin Tablets",
+    description: "Daily health supplement",
     price: 550,
     image: "https://assets.lovable.dev/templates/ecommerce/supplement2.jpg",
-    category: "सप्लीमेंट्स",
+    category: "Supplements",
   }
 ];
 
 const Products = () => {
   const [products, setProducts] = useState(initialProducts);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("सभी");
+  const [selectedCategory, setSelectedCategory] = useState("All");
   
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -69,28 +70,28 @@ const Products = () => {
   };
   
   const addToCart = (productId: number) => {
-    toast.success("उत्पाद कार्ट में जोड़ा गया");
+    toast.success("Product added to cart");
   };
   
   const filteredProducts = products.filter(product => {
     const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          product.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = selectedCategory === "सभी" || product.category === selectedCategory;
+    const matchesCategory = selectedCategory === "All" || product.category === selectedCategory;
     
     return matchesSearch && matchesCategory;
   });
   
-  const categories = ["सभी", "डायबिटीज़ फूड", "होलग्रेन", "सप्लीमेंट्स", "किराना"];
+  const categories = ["All", "Diabetic Food", "Whole Grains", "Supplements", "Grocery"];
   
   return (
     <div className="container mx-auto py-8 px-4">
-      <h1 className="text-3xl font-bold mb-8 text-center">हमारे उत्पाद</h1>
+      <h1 className="text-3xl font-bold mb-8 text-center">Our Products</h1>
       
       <div className="flex flex-col md:flex-row gap-4 mb-8">
         <div className="w-full md:w-2/3">
           <Input
             type="text"
-            placeholder="उत्पाद खोजें..."
+            placeholder="Search products..."
             value={searchTerm}
             onChange={handleSearch}
             className="w-full"
@@ -113,7 +114,7 @@ const Products = () => {
       
       {filteredProducts.length === 0 ? (
         <div className="text-center py-8">
-          <p className="text-xl text-gray-500">कोई उत्पाद नहीं मिला</p>
+          <p className="text-xl text-gray-500">No products found</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -132,7 +133,7 @@ const Products = () => {
                 <div className="mt-4 flex justify-between items-center">
                   <span className="text-lg font-bold">₹{product.price}</span>
                   <Button onClick={() => addToCart(product.id)}>
-                    कार्ट में जोड़ें
+                    Add to Cart
                   </Button>
                 </div>
               </div>

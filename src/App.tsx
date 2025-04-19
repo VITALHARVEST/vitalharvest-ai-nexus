@@ -16,6 +16,7 @@ import AIChatbot from "./components/AIChatbot";
 import Dashboard from "./pages/Dashboard";
 import Settings from "./pages/Settings";
 import AIHub from "./pages/AIHub";
+import ProductManagement from "./pages/ProductManagement";
 
 const queryClient = new QueryClient();
 
@@ -45,6 +46,7 @@ const App = () => (
             <Route path="backup" element={<Backup />} />
             <Route path="settings" element={<Settings />} />
             <Route path="ai-tools" element={<AIHub />} />
+            <Route path="products" element={<ProductManagement />} />
           </Route>
 
           <Route path="*" element={<NotFound />} />

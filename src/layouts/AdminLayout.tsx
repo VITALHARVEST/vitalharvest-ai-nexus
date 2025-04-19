@@ -7,7 +7,7 @@ import {
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { Menu, Home, Users, FileText, Settings, Database } from 'lucide-react';
+import { Menu, Home, Users, FileText, Settings, Database, Plus } from 'lucide-react';
 
 const AdminLayout = () => {
   const navigate = useNavigate();
@@ -33,6 +33,10 @@ const AdminLayout = () => {
                 <Link to="/admin/customers" className="px-3 py-2 text-sm font-medium text-gray-900 flex items-center">
                   <Users size={16} className="mr-1" />
                   Customers
+                </Link>
+                <Link to="/admin/products" className="px-3 py-2 text-sm font-medium text-gray-900 flex items-center">
+                  <Plus size={16} className="mr-1" />
+                  Products
                 </Link>
                 <Link to="/admin/backup" className="px-3 py-2 text-sm font-medium text-gray-900 flex items-center">
                   <Database size={16} className="mr-1" />
@@ -72,6 +76,10 @@ const AdminLayout = () => {
                       <Link to="/admin/customers" className="px-4 py-2 hover:bg-gray-100 rounded-md flex items-center">
                         <Users size={16} className="mr-2" />
                         Customers
+                      </Link>
+                      <Link to="/admin/products" className="px-4 py-2 hover:bg-gray-100 rounded-md flex items-center">
+                        <Plus size={16} className="mr-2" />
+                        Products
                       </Link>
                       <Link to="/admin/backup" className="px-4 py-2 hover:bg-gray-100 rounded-md flex items-center">
                         <Database size={16} className="mr-2" />
