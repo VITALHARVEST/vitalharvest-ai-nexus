@@ -24,30 +24,30 @@ const AdminLayout = () => {
               <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
                 <Link to="/admin/dashboard" className="px-3 py-2 text-sm font-medium text-gray-900 flex items-center">
                   <Home size={16} className="mr-1" />
-                  डैशबोर्ड
+                  Dashboard
                 </Link>
                 <Link to="/admin/content" className="px-3 py-2 text-sm font-medium text-gray-900 flex items-center">
                   <FileText size={16} className="mr-1" />
-                  कंटेंट
+                  Content
                 </Link>
                 <Link to="/admin/customers" className="px-3 py-2 text-sm font-medium text-gray-900 flex items-center">
                   <Users size={16} className="mr-1" />
-                  ग्राहक
+                  Customers
                 </Link>
                 <Link to="/admin/backup" className="px-3 py-2 text-sm font-medium text-gray-900 flex items-center">
                   <Database size={16} className="mr-1" />
-                  बैकअप
+                  Backup
                 </Link>
                 <Link to="/admin/settings" className="px-3 py-2 text-sm font-medium text-gray-900 flex items-center">
                   <Settings size={16} className="mr-1" />
-                  सेटिंग्स
+                  Settings
                 </Link>
               </div>
             </div>
             <div className="flex items-center">
               <div className="hidden sm:block">
                 <Button variant="outline" onClick={() => navigate('/')}>
-                  पब्लिक साइट देखें
+                  View Public Site
                 </Button>
               </div>
               
@@ -63,25 +63,25 @@ const AdminLayout = () => {
                       <Link to="/admin" className="text-lg font-semibold px-4">VitalHarvest Admin</Link>
                       <Link to="/admin/dashboard" className="px-4 py-2 hover:bg-gray-100 rounded-md flex items-center">
                         <Home size={16} className="mr-2" />
-                        डैशबोर्ड
+                        Dashboard
                       </Link>
                       <Link to="/admin/content" className="px-4 py-2 hover:bg-gray-100 rounded-md flex items-center">
                         <FileText size={16} className="mr-2" />
-                        कंटेंट
+                        Content
                       </Link>
                       <Link to="/admin/customers" className="px-4 py-2 hover:bg-gray-100 rounded-md flex items-center">
                         <Users size={16} className="mr-2" />
-                        ग्राहक
+                        Customers
                       </Link>
                       <Link to="/admin/backup" className="px-4 py-2 hover:bg-gray-100 rounded-md flex items-center">
                         <Database size={16} className="mr-2" />
-                        बैकअप
+                        Backup
                       </Link>
                       <Link to="/admin/settings" className="px-4 py-2 hover:bg-gray-100 rounded-md flex items-center">
                         <Settings size={16} className="mr-2" />
-                        सेटिंग्स
+                        Settings
                       </Link>
-                      <Link to="/" className="px-4 py-2 mt-4 text-primary">पब्लिक साइट</Link>
+                      <Link to="/" className="px-4 py-2 mt-4 text-primary">Public Site</Link>
                     </div>
                   </SheetContent>
                 </Sheet>

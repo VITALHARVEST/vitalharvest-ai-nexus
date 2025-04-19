@@ -14,12 +14,12 @@ const data = [
 const Dashboard = () => {
   return (
     <div className="p-6 space-y-6">
-      <h1 className="text-2xl font-bold">डैशबोर्ड</h1>
+      <h1 className="text-2xl font-bold">Dashboard</h1>
       
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         <Card>
           <CardHeader>
-            <CardTitle>कुल उपयोगकर्ता</CardTitle>
+            <CardTitle>Total Users</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-3xl font-bold">250</p>
@@ -28,7 +28,7 @@ const Dashboard = () => {
 
         <Card>
           <CardHeader>
-            <CardTitle>कुल ऑर्डर</CardTitle>
+            <CardTitle>Total Orders</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-3xl font-bold">1,234</p>
@@ -37,7 +37,7 @@ const Dashboard = () => {
 
         <Card>
           <CardHeader>
-            <CardTitle>आज के विज़िटर</CardTitle>
+            <CardTitle>Today's Visitors</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-3xl font-bold">89</p>
@@ -47,7 +47,7 @@ const Dashboard = () => {
 
       <Card>
         <CardHeader>
-          <CardTitle>विज़िटर ट्रेंड</CardTitle>
+          <CardTitle>Visitor Trends</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="h-[300px]">
