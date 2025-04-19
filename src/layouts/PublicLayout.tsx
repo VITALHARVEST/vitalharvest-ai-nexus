@@ -24,6 +24,7 @@ const PublicLayout = () => {
                 <Link to="/about" className="px-3 py-2 text-sm font-medium text-gray-900">About Us</Link>
                 <Link to="/contact" className="px-3 py-2 text-sm font-medium text-gray-900">Contact</Link>
                 <Link to="/feedback" className="px-3 py-2 text-sm font-medium text-gray-900">Feedback</Link>
+                <Link to="/ai-hub" className="px-3 py-2 text-sm font-medium text-gray-900 bg-blue-50 rounded">AI Hub</Link>
               </div>
             </div>
             <div className="flex items-center space-x-4">
@@ -47,6 +48,7 @@ const PublicLayout = () => {
                       <Link to="/about" className="px-4 py-2 hover:bg-gray-100 rounded-md">About Us</Link>
                       <Link to="/contact" className="px-4 py-2 hover:bg-gray-100 rounded-md">Contact</Link>
                       <Link to="/feedback" className="px-4 py-2 hover:bg-gray-100 rounded-md">Feedback</Link>
+                      <Link to="/ai-hub" className="px-4 py-2 hover:bg-gray-100 rounded-md bg-blue-50">AI Hub</Link>
                       <Link to="/admin" className="px-4 py-2 mt-4 text-primary">Admin Panel</Link>
                     </div>
                   </SheetContent>
